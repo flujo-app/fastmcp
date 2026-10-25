@@ -141,5 +141,8 @@ You can also attach the server to an agent and ask it to roll dice; Tool Tester 
 ## Troubleshooting
 
 - **Test run times out on first `uv` / `uvx` use** — package download can be slow; wait for the longer runner timeout or pre-warm with `uv run --with fastmcp python server.py` once in a terminal.
-- **Wrong script path** — with `python /absolute/path/to/server.py`, a bad path usually shows `can't open file` / `No such file or directory` in the Test run console (FLUJO may also surface `MODULE_NOT_FOUND` for other import/path mistakes). Fix the `server.py` path rows under **Arguments**.
+- **Python can't open `server.py`** — `can't open file ... [Errno 2] No such file or directory` means the script path is wrong. Correct the `server.py` argument under **Arguments**; prefer an absolute path to an existing file.
+- **Python `ModuleNotFoundError: No module named ...`** — the script started, but an import failed. Install the missing dependency in the interpreter or environment selected by **Run command**. With `uv run`, add a `--with` row followed by the package name before the `python` row.
+- **Node.js `Cannot find module ...` / `MODULE_NOT_FOUND`** — check the JavaScript entry-file argument or install the missing Node.js dependency. This is a Node.js diagnostic; use the Python guidance above for a Python server.
+- **Missing working directory** — set **MCP server root path** to an existing directory. A missing root directory can prevent the process from starting, even when the script argument is an absolute path.
 - **Command not found** — **Run command** must be a single executable (`uv`, `python`, `uvx`), with everything else in **Arguments**, not one pasted shell line.
